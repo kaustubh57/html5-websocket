@@ -3,6 +3,8 @@ package com.kaustubh57.jettyWebsocket;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 
+import java.io.IOException;
+
 public class EventSocket extends WebSocketAdapter
 {
     @Override
@@ -17,6 +19,12 @@ public class EventSocket extends WebSocketAdapter
     {
         super.onWebSocketText(message);
         System.out.println("Received TEXT message: " + message);
+
+        try {
+            super.getSession().getRemote().sendString("From Server >>> "+message);
+        } catch (IOException ioe) {
+            System.err.println("Error while sending message");
+        }
     }
 
     @Override

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jetty Websocket Example</title>
+</head>
+<body>
+<button onclick="sendMessage()">Send Message</button>
+<div id="content"></div>
+
+<script type="text/javascript">
+    var content = document.getElementById('content');
+    var socket = new WebSocket('ws://localhost:7227/events');
+    socket.onopen = function () {
+        socket.send('hello from the client');
+    };
+
+    socket.onmessage = function (message) {
+        content.innerHTML += message.data +'<br />';
+    };
+
+    socket.onerror = function (error) {
+        console.log('WebSocket error: ' + error);
+    };
+    sendMessage = function() {
+        socket.send('button click >>> ' + new Date());
+    };
+</script>
+</body>
+</html>
